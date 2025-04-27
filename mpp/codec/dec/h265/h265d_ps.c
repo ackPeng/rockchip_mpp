@@ -286,6 +286,8 @@ static RK_S32 decode_profile_tier_level(HEVCContext *s, PTLCommon *ptl)
         h265d_dbg(H265D_DBG_GLOBAL, "Main 10 profile bitstream\n");
     else if (ptl->profile_idc == MPP_PROFILE_HEVC_MAIN_STILL_PICTURE)
         h265d_dbg(H265D_DBG_GLOBAL, "Main Still Picture profile bitstream\n");
+    else if (ptl->profile_idc == MPP_PROFILE_HEVC_FORMAT_RANGE_EXTENDIONS)
+        h265d_dbg(H265D_DBG_GLOBAL, "Main 4:4:4 profile profile bitstream\n");
     else
         mpp_log("Unknown HEVC profile: %d\n", ptl->profile_idc);
 
