@@ -1416,7 +1416,7 @@ RK_S32 mpp_hevc_decode_nal_sps(HEVCContext *s)
     RK_S32 ret    = 0;
     RK_U32 sps_id = 0;
     RK_S32 log2_diff_max_min_transform_block_size;
-    RK_S32 bit_depth_chroma, start, vui_present, sublayer_ordering_info;
+    RK_S32 bit_depth_chroma, start, vui_en, sublayer_ordering_info;
     RK_S32 i;
     RK_S32 value = 0;
 
@@ -1734,8 +1734,8 @@ RK_S32 mpp_hevc_decode_nal_sps(HEVCContext *s)
 
     sps->vui.sar.num = 0;
     sps->vui.sar.den = 1;
-    READ_ONEBIT(gb, &vui_present);
-    if (vui_present)
+    READ_ONEBIT(gb, &vui_en);
+    if (vui_en)
         decode_vui(s, sps);
 #ifdef SCALED_REF_LAYER_OFFSETS
     if ( s->nuh_layer_id > 0 )   {
