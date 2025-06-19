@@ -902,9 +902,14 @@ static RK_S32 hls_slice_header(HEVCContext *s)
 
         if (s->sps->sao_enabled) {
             READ_ONEBIT(gb, &sh->slice_sample_adaptive_offset_flag[0]);
-            READ_ONEBIT(gb, &sh->slice_sample_adaptive_offset_flag[1]);
-            sh->slice_sample_adaptive_offset_flag[2] =
-                sh->slice_sample_adaptive_offset_flag[1];
+            if (s->sps->chroma_format_idc) {
+                READ_ONEBIT(gb, &sh->slice_sample_adaptive_offset_flag[1]);
+                sh->slice_sample_adaptive_offset_flag[2] =
+                    sh->slice_sample_adaptive_offset_flag[1];
+            } else {
+                sh->slice_sample_adaptive_offset_flag[1] = 0;
+                sh->slice_sample_adaptive_offset_flag[2] = 0;
+            }
         } else {
             sh->slice_sample_adaptive_offset_flag[0] = 0;
             sh->slice_sample_adaptive_offset_flag[1] = 0;
