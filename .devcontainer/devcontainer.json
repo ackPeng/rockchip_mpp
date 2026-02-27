@@ -24,5 +24,5 @@
     "--ulimit", "nofile=1024:524288"
   ],
   "overrideCommand": true,
-  "updateContentCommand": "make devcontainer_setup"
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y make"
 }
