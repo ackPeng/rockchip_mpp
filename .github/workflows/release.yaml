@@ -20,7 +20,7 @@ jobs:
       run: |
         dpkg --add-architecture arm64
         apt-get update
-        apt-get install -y crossbuild-essential-arm64 binfmt-support qemu-user-static cmake debhelper dh-exec
+        apt-get install -y crossbuild-essential-arm64 binfmt-support qemu-user-static cmake debhelper dh-exec devscripts
         apt-get build-dep . -y || true
     - name: "Build DEB packages"
       run: |
