@@ -1,4 +1,5 @@
 #!/usr/bin/make -f
+
 # See debhelper(7) (uncomment to enable)
 # output every command that modifies files on the build system.
 #DH_VERBOSE = 1
@@ -14,10 +15,14 @@ include /usr/share/dpkg/default.mk
 # package maintainers to append CFLAGS
 #export DEB_CFLAGS_MAINT_APPEND  = -Wall -pedantic
 # package maintainers to append LDFLAGS
-#export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
+#export DEB_LDFLAGS_MAINT_APPEND  = -Wl,--as-needed
 
+# Toolchain for cross compilation
 ifneq ($(DEB_HOST_GNU_TYPE),$(DEB_BUILD_GNU_TYPE))
-export CMAKE_TOOLCHAIN_FILE=/etc/dpkg-cross/cmake/CMakeCross.txt
+export CC=$(DEB_HOST_GNU_TYPE)-gcc
+export CXX=$(DEB_HOST_GNU_TYPE)-g++
+export AR=$(DEB_HOST_GNU_TYPE)-ar
+export STRIP=$(DEB_HOST_GNU_TYPE)-strip
 endif
 
 # main packaging script based on dh7 syntax
@@ -28,5 +33,12 @@ endif
 # This is example for Cmake (See http://bugs.debian.org/641051 )
 override_dh_auto_configure:
 	dh_auto_configure -- \
-	-DCMAKE_BUILD_TYPE=Release \
-	-DARM_MIX_32_64=ON
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DARM_MIX_32_64=ON \
+		-DHAVE_DRM=ON
+
+override_dh_auto_test:
+	# Skip tests during package build
+	:

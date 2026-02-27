@@ -1,30 +1,79 @@
-Source: mpp
-Priority: optional
-Maintainer: Randy Li <randy.li@rock-chips.com>
-Build-Depends: debhelper (>= 10), cmake, dh-exec
-Standards-Version: 3.9.5
+Source: rockchip-mpp
+Maintainer: "Radxa Computer Co., Ltd" <dev@radxa.com>
 Section: libs
-Homepage: http://www.rock-chips.com
-#Vcs-Git: git://anonscm.debian.org/collab-maint/mpp.git
-#Vcs-Browser: http://anonscm.debian.org/?p=collab-maint/mpp.git;a=summary
+Priority: optional
+Standards-Version: 4.6.0
+Build-Depends: debhelper (>=12~),
+               cmake,
+               dh-exec,
+               lintian,
+               crossbuild-essential-arm64 [!arm64],
+               libc6:arm64 [!arm64],
 
 Package: librockchip-mpp-dev
+Architecture: any
 Section: libdevel
-Architecture: any
-Depends: librockchip-mpp1 (= ${binary:Version}), ${misc:Depends}
-Description: Media Process Platform
+Priority: optional
+Depends: librockchip-mpp6 (= ${binary:Version}),
+         ${misc:Depends}
+Description: Rockchip Media Process Platform (development files)
+ This package contains the development headers and libraries
+ for the Rockchip Media Process Platform (MPP).
+ .
+ MPP is the Media Process Platform for Rockchip chips, providing
+ unified interfaces for video encoding, decoding, and processing.
 
-Package: librockchip-mpp1
+Package: librockchip-mpp6
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: Media Process Platform
+Section: libs
+Priority: optional
+Depends: ${shlibs:Depends},
+         ${misc:Depends}
+Pre-Depends: ${misc:Pre-Depends}
+Description: Rockchip Media Process Platform (shared library)
+ This package contains the shared libraries for the Rockchip
+ Media Process Platform (MPP).
+ .
+ MPP provides video codec support including H.264, H.265, VP8,
+ VP9, JPEG, and other formats for Rockchip SoCs.
 
-Package: librockchip-vpu0
+Package: librockchip-vpu6
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: Media Process Platform
+Section: libs
+Priority: optional
+Depends: ${shlibs:Depends},
+         ${misc:Depends}
+Pre-Depends: ${misc:Pre-Depends}
+Conflicts: librockchip-vpu0,
+           librockchip-vpu1,
+           librockchip-vpu2,
+           librockchip-vpu3,
+           librockchip-vpu4,
+           librockchip-vpu5,
+Replaces: librockchip-vpu0,
+          librockchip-vpu1,
+          librockchip-vpu2,
+          librockchip-vpu3,
+          librockchip-vpu4,
+          librockchip-vpu5,
+Breaks: librockchip-vpu0,
+        librockchip-vpu1,
+        librockchip-vpu2,
+        librockchip-vpu3,
+        librockchip-vpu4,
+        librockchip-vpu5,
+Description: Rockchip VPU compatibility library
+ This package provides a compatibility library for the legacy
+ Rockchip VPU API, built on top of the new MPP framework.
 
 Package: rockchip-mpp-demos
 Architecture: any
-Depends: librockchip-mpp1 (= ${binary:Version}), librockchip-vpu0 (= ${binary:Version}), ${misc:Depends}
-Description: Media Process Platform Demos
+Section: misc
+Priority: optional
+Depends: librockchip-mpp6 (= ${binary:Version}),
+         ${misc:Depends}
+Description: Rockchip Media Process Platform demo programs
+ This package contains demo and test programs for the Rockchip
+ Media Process Platform (MPP).
+ .
+ Examples include video encoding/decoding demos and test utilities.

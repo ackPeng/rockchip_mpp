@@ -1,0 +1,19 @@
+# This file contains common lintian overrides for this package
+# Source: https://salsa.debian.org/videolan-team/vlc/blob/master/debian/common-lintian-overrides
+
+# Allow extended-description paragraph is too short
+rockchip-mpp: extended-description-is-empty
+
+# Allow dev package without static lib
+rockchip-mpp: package-contains-no-arch-dependent-files
+
+# Allow dev package without manual page
+rockchip-mpp: binary-without-manpage
+
+# Allow missing upstream metadata
+rockchip-mpp: upstream-metadata-missing-repository
+rockchip-mpp: upstream-metadata-missing-bug-tracking
+
+# Allow new standards
+rockchip-mpp: package-needs-versioned-debhelper-build-depends 12
+rockchip-mpp: ancient-standards-version 4.6.0

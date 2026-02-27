@@ -89,3 +89,16 @@ Build
 #
 .vscode/
 .code-workspace
+
+#
+# CI / DEB build artifacts
+#
+*.buildinfo
+*.changes
+*.deb
+*.ddeb
+*.tar.xz
+*.tar.gz
+VERSION
+pkg.conf
+.debian*/

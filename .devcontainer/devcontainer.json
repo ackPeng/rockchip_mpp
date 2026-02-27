@@ -1,0 +1,33 @@
+{
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      },
+      "extensions": [
+        "mkhl.direnv",
+        "github.vscode-github-actions",
+        "ms-vscode.cpptools-extension-pack",
+        "ms-vscode.makefile-tools",
+        "twxs.cmake"
+      ]
+    }
+  },
+  "image": "mcr.microsoft.com/devcontainers/base:bullseye",
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {}
+  },
+  "mounts": [
+    {
+      "source": "${localWorkspaceFolder}/..",
+      "target": "/workspaces",
+      "type": "bind"
+    }
+  ],
+  "workspaceMount": "source=${localWorkspaceFolder},target=${containerWorkspaceFolder},type=bind,consistency=cached",
+  "runArgs": [
+    "--ulimit", "nofile=1024:524288"
+  ],
+  "overrideCommand": true,
+  "updateContentCommand": "make devcontainer_setup"
+}
