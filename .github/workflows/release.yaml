@@ -25,7 +25,9 @@ jobs:
     - name: "Build DEB packages"
       run: |
         chmod +x debian/rules
-        debuild --no-sign -b
+        export DEB_BUILD_ARCH=amd64
+        export DEB_HOST_ARCH=arm64
+        dpkg-buildpackage -us -uc -ui -b -aarm64
     - name: "Upload artifacts"
       uses: "actions/upload-artifact@v5"
       with:
