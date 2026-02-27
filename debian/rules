@@ -23,6 +23,7 @@ export CC=$(DEB_HOST_GNU_TYPE)-gcc
 export CXX=$(DEB_HOST_GNU_TYPE)-g++
 export AR=$(DEB_HOST_GNU_TYPE)-ar
 export STRIP=$(DEB_HOST_GNU_TYPE)-strip
+export TOOLCHAIN=$(DEB_HOST_GNU_TYPE)-
 endif
 
 # main packaging script based on dh7 syntax
@@ -37,7 +38,8 @@ override_dh_auto_configure:
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DCMAKE_INSTALL_LIBDIR=lib \
 		-DARM_MIX_32_64=ON \
-		-DHAVE_DRM=ON
+		-DHAVE_DRM=ON \
+		-DTOOLCHAIN=$(TOOLCHAIN)
 
 override_dh_auto_test:
 	# Skip tests during package build
