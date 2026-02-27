@@ -33,8 +33,10 @@ jobs:
         push: "never"
         runCmd: |
           set -euo pipefail
+          sudo dpkg --add-architecture arm64
           sudo apt-get update
-          sudo apt-get install --no-install-recommends -y git-buildpackage
+          sudo apt-get install --no-install-recommends -y git-buildpackage crossbuild-essential-arm64 binfmt-support qemu-user-static
+          sudo apt-get build-dep . -y || true
           export DEBEMAIL="dev@radxa.com"
           export DEBFULLNAME='"Radxa Computer Co., Ltd"'
           git config user.name "github-actions[bot]"
