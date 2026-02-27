@@ -3,6 +3,8 @@ jobs:
     outputs:
       distro: "${{ steps.distro_check.outputs.distro }}"
     runs-on: "ubuntu-latest"
+    container:
+      image: "debian:bullseye"
     steps:
     - name: "Checkout"
       uses: "actions/checkout@v6"
@@ -10,32 +12,22 @@ jobs:
         fetch-depth: 0
         fetch-tags: true
         submodules: "recursive"
-    - name: "Set up QEMU Emulation"
-      uses: "docker/setup-qemu-action@v3"
-      with:
-        image: "tonistiigi/binfmt:latest"
-    - name: "Build DEB packages"
-      uses: "devcontainers/ci@v0.3"
-      with:
-        push: "never"
-        runCmd: |
-          set -euo pipefail
-          sudo dpkg --add-architecture arm64
-          sudo apt-get update
-          sudo apt-get install --no-install-recommends -y crossbuild-essential-arm64 binfmt-support qemu-user-static
-          sudo apt-get build-dep . -y || true
-          make deb
-    - id: "artifacts_path"
-      name: "Get artifacts path"
+    - name: "Install build dependencies"
       run: |
-        echo "artifacts_path=$(realpath ..)" | tee -a "$GITHUB_OUTPUT"
-      shell: "bash"
+        dpkg --add-architecture arm64
+        apt-get update
+        apt-get install -y crossbuild-essential-arm64 binfmt-support qemu-user-static cmake debhelper dh-exec
+        apt-get build-dep . -y || true
+    - name: "Build DEB packages"
+      run: |
+        chmod +x debian/rules
+        debuild --no-sign -b
     - name: "Upload artifacts"
       uses: "actions/upload-artifact@v5"
       with:
         name: "${{ github.event.repository.name }}"
         path: |
-          ${{ steps.artifacts_path.outputs.artifacts_path }}/*.deb
+          ../*.deb
     - id: "distro_check"
       name: "Check if the latest version is releasable"
       run: |
